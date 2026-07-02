@@ -33,6 +33,16 @@ final class AppEnvironment {
         let hotkey = HotkeyManager()
         hotkey.onToggle = { [weak self] in self?.toggleVisibility() }
         self.hotkey = hotkey
+
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.didChangeScreenParametersNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.panelManager.reclampAll()
+            }
+        }
     }
 
     func willTerminate() {
@@ -93,10 +103,8 @@ final class AppEnvironment {
                     }
                 )
             },
-            onFrameChanged: { [weak self] id, frame in
-                self?.store.updatePlacement(
-                    id: id,
-                    placement: PanelPlacement(origin: frame.origin, size: frame.size))
+            onPlacementChanged: { [weak self] id, placement in
+                self?.store.updatePlacement(id: id, placement: placement)
             }
         )
     }

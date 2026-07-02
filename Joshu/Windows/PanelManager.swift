@@ -13,7 +13,7 @@ final class PanelManager {
         records: [WidgetInstanceRecord],
         registry: WidgetRegistry,
         makeShell: (UUID) -> any WidgetShellContext,
-        onFrameChanged: @escaping (UUID, NSRect) -> Void
+        onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void
     ) {
         let liveIDs = Set(records.map(\.id))
 
@@ -43,7 +43,13 @@ final class PanelManager {
                 content: content,
                 service: service,
                 cascadeIndex: controllers.count,
-                onFrameChanged: onFrameChanged
+                otherFrames: { [weak self] excluded in
+                    guard let self else { return [] }
+                    return self.controllers.compactMap { id, controller in
+                        id == excluded ? nil : controller.frame
+                    }
+                },
+                onPlacementChanged: onPlacementChanged
             )
             controllers[record.id] = controller
             if allVisible { controller.show() }
@@ -54,6 +60,14 @@ final class PanelManager {
         allVisible = visible
         for controller in controllers.values {
             visible ? controller.show() : controller.hide()
+        }
+    }
+
+    /// Display topology changed (unplug, resolution switch): pull every panel
+    /// back into a visible screen.
+    func reclampAll() {
+        for controller in controllers.values {
+            controller.reclampToVisibleScreen()
         }
     }
 }

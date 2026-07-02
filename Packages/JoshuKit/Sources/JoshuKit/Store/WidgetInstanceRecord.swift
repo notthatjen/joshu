@@ -1,18 +1,29 @@
 import Foundation
 
-/// Where a panel sits on screen. M1 stores the absolute panel frame; M2
-/// upgrades to screen-UUID + visibleFrame fractions so positions survive
-/// resolution changes and display swaps.
+/// Where a panel sits on screen. Primary representation is screen-UUID +
+/// visibleFrame fractions (survives resolution changes and display swaps);
+/// absolute `origin` is kept as a same-launch fast path and legacy fallback.
 public struct PanelPlacement: Codable, Hashable, Sendable {
     /// Full panel frame origin (includes the shadow inset). nil until the
     /// panel has been shown once — the shell cascades new panels.
     public var origin: CGPoint?
     /// Full panel frame size (includes the shadow inset on every side).
     public var size: CGSize
+    /// Stable UUID of the display the panel was last placed on.
+    public var screenUUID: String?
+    /// Origin as 0–1 fractions of that display's visibleFrame.
+    public var originFraction: CGPoint?
 
-    public init(origin: CGPoint? = nil, size: CGSize) {
+    public init(
+        origin: CGPoint? = nil,
+        size: CGSize,
+        screenUUID: String? = nil,
+        originFraction: CGPoint? = nil
+    ) {
         self.origin = origin
         self.size = size
+        self.screenUUID = screenUUID
+        self.originFraction = originFraction
     }
 }
 
