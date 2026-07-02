@@ -138,6 +138,9 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     var frame: NSRect { panel.frame }
 
+    /// For auxiliary-window anchoring (child windows need the NSPanel).
+    var nsPanel: NSPanel { panel }
+
     // MARK: - NSWindowDelegate
 
     func windowDidMove(_ notification: Notification) {

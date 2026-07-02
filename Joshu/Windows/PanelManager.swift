@@ -7,26 +7,29 @@ import JoshuKit
 @MainActor
 final class PanelManager {
     private var controllers: [UUID: PanelController] = [:]
+    private var shells: [UUID: MacWidgetShellContext] = [:]
     private var allVisible = true
 
     func reconcile(
         records: [WidgetInstanceRecord],
         registry: WidgetRegistry,
-        makeShell: (UUID) -> any WidgetShellContext,
+        makeShell: (UUID) -> MacWidgetShellContext,
         onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void
     ) {
         let liveIDs = Set(records.map(\.id))
 
         for (id, controller) in controllers where !liveIDs.contains(id) {
+            shells[id]?.closeAllAuxiliaryWindows()
+            shells[id] = nil
             controller.close()
             controllers[id] = nil
         }
 
         for record in records where controllers[record.id] == nil {
+            let shell = makeShell(record.id)
             let content: AnyView
             let service: (any WidgetService)?
             if let descriptor = registry.descriptor(for: record.typeID) {
-                let shell = makeShell(record.id)
                 content = descriptor.makeView(
                     instanceID: record.id, configJSON: record.configJSON, shell: shell)
                 service = descriptor.makeService(
@@ -51,6 +54,8 @@ final class PanelManager {
                 },
                 onPlacementChanged: onPlacementChanged
             )
+            shell.panelController = controller
+            shells[record.id] = shell
             controllers[record.id] = controller
             if allVisible { controller.show() }
         }

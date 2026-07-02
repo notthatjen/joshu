@@ -6,7 +6,8 @@ public enum BuiltinWidgets {
     @MainActor
     public static var all: [AnyWidgetDescriptor] {
         [
-            AnyWidgetDescriptor(NotesWidget.self)
+            AnyWidgetDescriptor(NotesWidget.self),
+            AnyWidgetDescriptor(ChatHeadsWidget.self),
         ]
     }
 }

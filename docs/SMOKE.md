@@ -19,3 +19,20 @@ hand after each milestone. Run `make run` first.
       again — panel restores to the same position.
 - [ ] Two displays: drag panel to the second display, relaunch — it comes back
       on that display.
+
+## M2 — placement
+
+- [ ] Drag a widget near a screen edge and release — it snaps flush.
+- [ ] Drag one widget next to another — edges snap together.
+- [ ] Change display resolution (or unplug a display) — widgets jump back
+      into the visible area.
+
+## M3 — auxiliary windows (Chat Heads demo)
+
+- [ ] Add "Chat Heads (demo)" from the gallery.
+- [ ] Click an avatar — a chat window opens anchored to the right of the stack.
+- [ ] Drag the avatar stack — the chat window rides along.
+- [ ] Click the same avatar again — the existing window focuses (no duplicate).
+- [ ] Type in the chat text field and press ⏎ — message appears.
+- [ ] Remove the widget (menu bar → Remove Widget) — its chat windows close too.
+- [ ] Switch Spaces with a chat window open — parent and child stay together.
