@@ -36,3 +36,19 @@ hand after each milestone. Run `make run` first.
 - [ ] Type in the chat text field and press ⏎ — message appears.
 - [ ] Remove the widget (menu bar → Remove Widget) — its chat windows close too.
 - [ ] Switch Spaces with a chat window open — parent and child stay together.
+
+## M6 — coding widget
+
+- [ ] Add "Coding" from the gallery; paste a repo path — worktrees appear.
+- [ ] Sessions show as avatars per worktree (C = Claude, X = Codex); a
+      session that wrote to disk in the last ~45s pulses green.
+- [ ] Click an avatar — chat window opens with the transcript (text bubbles,
+      collapsed "thinking", compact tool rows).
+- [ ] While a claude session runs in a terminal in that worktree, new
+      messages appear in the open chat window within ~2s.
+- [ ] Send a message to an idle Claude session — reply streams in and the
+      on-disk JSONL gains the turn (headless: read-only tools allowed,
+      denials render as rows).
+- [ ] Send to a session that's active elsewhere — it forks ("forked from …"
+      banner) and the fork appears as a new avatar.
+- [ ] Codex sessions open read-only with live tail.

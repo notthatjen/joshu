@@ -11,6 +11,7 @@ let package = Package(
         .package(path: "../JoshuKit")
     ],
     targets: [
-        .target(name: "JoshuWidgets", dependencies: ["JoshuKit"])
+        .target(name: "JoshuWidgets", dependencies: ["JoshuKit"]),
+        .testTarget(name: "JoshuWidgetsTests", dependencies: ["JoshuWidgets"]),
     ]
 )
