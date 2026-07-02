@@ -15,6 +15,7 @@ final class AppEnvironment {
     @ObservationIgnored private let panelManager = PanelManager()
     @ObservationIgnored private let gallery = GalleryWindowController()
     @ObservationIgnored private var hotkey: HotkeyManager?
+    @ObservationIgnored private var toastHost: ToastHostController?
 
     init() {
         registry = WidgetRegistry(descriptors: BuiltinWidgets.all)
@@ -33,6 +34,12 @@ final class AppEnvironment {
         let hotkey = HotkeyManager()
         hotkey.onToggle = { [weak self] in self?.toggleVisibility() }
         self.hotkey = hotkey
+
+        // Render meeting action-item toasts and route Run-with-Claude.
+        toastHost = ToastHostController { workspace, prompt in
+            let target = workspace.isEmpty ? nil : workspace
+            runWithClaude(workspacePath: target ?? FileManager.default.currentDirectoryPath, prompt: prompt)
+        }
 
         NotificationCenter.default.addObserver(
             forName: NSApplication.didChangeScreenParametersNotification,

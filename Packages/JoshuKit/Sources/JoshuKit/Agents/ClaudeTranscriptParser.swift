@@ -125,11 +125,11 @@ public struct ClaudeTranscriptParser: Sendable {
 }
 
 extension ISO8601DateFormatter {
-    static let withFractional: ISO8601DateFormatter = {
+    public static let withFractional: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return formatter
     }()
 
-    static let plain = ISO8601DateFormatter()
+    public static let plain = ISO8601DateFormatter()
 }

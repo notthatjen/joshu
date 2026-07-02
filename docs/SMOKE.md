@@ -63,3 +63,19 @@ hand after each milestone. Run `make run` first.
       "stale" with a Re-run button; re-running adds a new run to history.
 - [ ] Merged/closed PRs stop being polled.
 - [ ] `gh auth logout` state shows a login CTA instead of failing silently.
+
+## M8b — meeting widget
+
+Needs a one-time interactive step (see docs/integrations/granola.md):
+- [ ] Add "Meeting" from the gallery — background poll uses only the no-prompt
+      plaintext token; when that's stale it shows "Connect" (no surprise
+      Keychain prompt).
+- [ ] Click Connect (with the user present) — approve the one-time
+      "Granola Safe Storage" Keychain prompt; meetings begin loading.
+- [ ] After a real meeting completes in Granola, within one poll (~45s) its
+      immediate action items pop as top-right edge toasts.
+- [ ] Toast auto-hides ~12s; hovering keeps it up.
+- [ ] "Copy prompt" fills the pasteboard with the suggested prompt.
+- [ ] "Run with Claude" spawns a session in the default workspace and its
+      chat-head appears in the coding widget for that repo.
+- [ ] Relaunch — the same meeting is not processed again (dedupe).

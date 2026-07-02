@@ -26,7 +26,18 @@ public enum CodingWidget: WidgetDescriptor {
 }
 
 /// Shared across coding widget instances — probing claude/gh once is enough.
-@MainActor let sharedToolAvailability = ToolAvailability()
+@MainActor public let sharedToolAvailability = ToolAvailability()
+
+/// Spawn a new Claude session in a workspace (Run with Claude). Public entry
+/// for the app shell; the session shows up as a coding chat-head via
+/// file-driven discovery.
+@MainActor
+public func runWithClaude(workspacePath: String, prompt: String) {
+    Task {
+        try? await SpawnSessionService.startClaude(
+            workspacePath: workspacePath, prompt: prompt, tools: sharedToolAvailability)
+    }
+}
 
 // MARK: - Engine
 
