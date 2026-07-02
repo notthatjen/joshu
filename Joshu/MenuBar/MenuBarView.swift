@@ -27,6 +27,11 @@ struct MenuBarView: View {
 
         Divider()
 
+        SettingsLink {
+            Text("Settings…")
+        }
+        .keyboardShortcut(",")
+
         Button("Quit Joshu") {
             NSApp.terminate(nil)
         }

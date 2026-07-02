@@ -9,5 +9,9 @@ struct JoshuApp: App {
             MenuBarView(environment: appDelegate.environment)
         }
         .menuBarExtraStyle(.menu)
+
+        Settings {
+            SettingsView()
+        }
     }
 }
