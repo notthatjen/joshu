@@ -1,0 +1,40 @@
+name: Joshu
+options:
+  bundleIdPrefix: com.wren
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+packages:
+  JoshuKit:
+    path: Packages/JoshuKit
+  JoshuWidgets:
+    path: Packages/JoshuWidgets
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: 2.0.0
+
+targets:
+  Joshu:
+    type: application
+    platform: macOS
+    sources: [Joshu]
+    dependencies:
+      - package: JoshuKit
+      - package: JoshuWidgets
+      - package: KeyboardShortcuts
+    scheme:
+      testTargets: []
+    info:
+      path: Joshu/Info.plist
+      properties:
+        LSUIElement: true
+        CFBundleDisplayName: Joshu
+        NSHumanReadableCopyright: ""
+    settings:
+      base:
+        SWIFT_VERSION: "5.10"
+        CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
