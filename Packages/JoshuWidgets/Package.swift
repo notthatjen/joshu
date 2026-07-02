@@ -8,10 +8,16 @@ let package = Package(
         .library(name: "JoshuWidgets", targets: ["JoshuWidgets"])
     ],
     dependencies: [
-        .package(path: "../JoshuKit")
+        .package(path: "../JoshuKit"),
+        .package(url: "https://github.com/groue/GRDB.swift.git", from: "7.0.0"),
     ],
     targets: [
-        .target(name: "JoshuWidgets", dependencies: ["JoshuKit"]),
+        .target(
+            name: "JoshuWidgets",
+            dependencies: [
+                "JoshuKit",
+                .product(name: "GRDB", package: "GRDB.swift"),
+            ]),
         .testTarget(name: "JoshuWidgetsTests", dependencies: ["JoshuWidgets"]),
     ]
 )

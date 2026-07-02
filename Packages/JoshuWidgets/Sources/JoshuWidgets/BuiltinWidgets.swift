@@ -7,6 +7,7 @@ public enum BuiltinWidgets {
     public static var all: [AnyWidgetDescriptor] {
         [
             AnyWidgetDescriptor(CodingWidget.self),
+            AnyWidgetDescriptor(ReviewerWidget.self),
             AnyWidgetDescriptor(NotesWidget.self),
             AnyWidgetDescriptor(ChatHeadsWidget.self),
         ]

@@ -52,3 +52,14 @@ hand after each milestone. Run `make run` first.
 - [ ] Send to a session that's active elsewhere — it forks ("forked from …"
       banner) and the fork appears as a new avatar.
 - [ ] Codex sessions open read-only with live tail.
+
+## M7 — reviewer widget
+
+- [ ] Add "Reviewer" from the gallery — empty state shows just the URL input.
+- [ ] Paste a real PR URL — row appears as "running", then "completed" with
+      findings grouped by severity (each full review costs real Claude usage).
+- [ ] Click a row — detail window opens with summary + findings.
+- [ ] Push a new commit to that PR, wait ≤5 min (or relaunch) — row flips to
+      "stale" with a Re-run button; re-running adds a new run to history.
+- [ ] Merged/closed PRs stop being polled.
+- [ ] `gh auth logout` state shows a login CTA instead of failing silently.
