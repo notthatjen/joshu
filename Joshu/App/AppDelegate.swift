@@ -10,4 +10,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         MainMenuBuilder.installHiddenEditMenu()
         environment.start()
     }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        // Flush any debounced store writes.
+        environment.willTerminate()
+    }
 }

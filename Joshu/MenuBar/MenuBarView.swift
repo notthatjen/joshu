@@ -1,5 +1,5 @@
 import SwiftUI
-import KeyboardShortcuts
+import JoshuKit
 
 struct MenuBarView: View {
     let environment: AppEnvironment
@@ -9,6 +9,21 @@ struct MenuBarView: View {
             environment.toggleVisibility()
         }
         .keyboardShortcut(.space, modifiers: .option)
+
+        Button("Add Widget…") {
+            environment.showGallery()
+        }
+
+        if !environment.store.records.isEmpty {
+            Divider()
+            Menu("Remove Widget") {
+                ForEach(environment.store.records) { record in
+                    Button(environment.displayName(for: record)) {
+                        environment.removeWidget(id: record.id)
+                    }
+                }
+            }
+        }
 
         Divider()
 
