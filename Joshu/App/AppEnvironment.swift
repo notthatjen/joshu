@@ -105,6 +105,9 @@ final class AppEnvironment {
             },
             onPlacementChanged: { [weak self] id, placement in
                 self?.store.updatePlacement(id: id, placement: placement)
+            },
+            onRemoveRequested: { [weak self] id in
+                self?.removeWidget(id: id)
             }
         )
     }

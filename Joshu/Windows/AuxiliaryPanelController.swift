@@ -27,7 +27,7 @@ final class AuxiliaryPanelController: NSObject, NSWindowDelegate {
 
         let container = PassThroughMarginView()
         container.margin = inset
-        let host = NSHostingView(rootView: WidgetChrome { content })
+        let host = NSHostingView(rootView: WidgetChrome(onClose: { [weak self] in self?.close() }) { content })
         host.sizingOptions = []
         host.translatesAutoresizingMaskIntoConstraints = false
         container.addSubview(host)

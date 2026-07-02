@@ -22,7 +22,8 @@ final class PanelController: NSObject, NSWindowDelegate {
         service: (any WidgetService)?,
         cascadeIndex: Int,
         otherFrames: @escaping (UUID) -> [NSRect],
-        onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void
+        onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void,
+        onCloseRequested: (() -> Void)? = nil
     ) {
         instanceID = record.id
         self.service = service
@@ -42,7 +43,7 @@ final class PanelController: NSObject, NSWindowDelegate {
         let container = PassThroughMarginView()
         container.margin = JoshuTheme.shadowInset
 
-        let host = NSHostingView(rootView: WidgetChrome { content })
+        let host = NSHostingView(rootView: WidgetChrome(onClose: onCloseRequested) { content })
         // Default sizingOptions let SwiftUI's intrinsic size drive the window
         // frame; the stored placement is the boss.
         host.sizingOptions = []
@@ -80,8 +81,30 @@ final class PanelController: NSObject, NSWindowDelegate {
 
     // MARK: - Visibility & teardown
 
-    func show() { panel.orderFrontRegardless() }
-    func hide() { panel.orderOut(nil) }
+    func show() {
+        if panel.isVisible {
+            panel.orderFrontRegardless()
+            return
+        }
+        panel.alphaValue = 0
+        panel.orderFrontRegardless()
+        NSAnimationContext.runAnimationGroup { context in
+            context.duration = 0.18
+            panel.animator().alphaValue = 1
+        }
+    }
+
+    func hide() {
+        guard panel.isVisible else { return }
+        let panel = panel
+        NSAnimationContext.runAnimationGroup({ context in
+            context.duration = 0.15
+            panel.animator().alphaValue = 0
+        }, completionHandler: {
+            panel.orderOut(nil)
+            panel.alphaValue = 1
+        })
+    }
 
     func close() {
         let service = service

@@ -14,7 +14,8 @@ final class PanelManager {
         records: [WidgetInstanceRecord],
         registry: WidgetRegistry,
         makeShell: (UUID) -> MacWidgetShellContext,
-        onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void
+        onPlacementChanged: @escaping (UUID, PanelPlacement) -> Void,
+        onRemoveRequested: @escaping (UUID) -> Void
     ) {
         let liveIDs = Set(records.map(\.id))
 
@@ -52,7 +53,8 @@ final class PanelManager {
                         id == excluded ? nil : controller.frame
                     }
                 },
-                onPlacementChanged: onPlacementChanged
+                onPlacementChanged: onPlacementChanged,
+                onCloseRequested: { onRemoveRequested(record.id) }
             )
             shell.panelController = controller
             shells[record.id] = shell
